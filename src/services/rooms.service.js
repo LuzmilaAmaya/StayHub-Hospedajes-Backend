@@ -1,4 +1,4 @@
-import Room from "../models/Room.model.js";
+import Room from "../models/Room.js";
 
 export const createRoom = (data) => {
   return Room.create(data);

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/LuzmilaAmaya/StayHub-Hospedajes-Backend#readme",
   "dependencies": {
+    "axios": "^1.13.5",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^16.4.5",

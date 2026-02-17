@@ -5,12 +5,13 @@ import {
   getReservationById,
   cancelReservation,
 } from "../controllers/reservation.controller.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.post("/", createReservation);
-router.get("/", getReservations);
-router.get("/:id", getReservationById);
-router.patch("/:id/cancel", cancelReservation);
+router.post("/", authMiddleware, createReservation);
+router.get("/", authMiddleware, getReservations);
+router.get("/:id", authMiddleware, getReservationById);
+router.patch("/:id/cancel", authMiddleware, cancelReservation);
 
 export default router;

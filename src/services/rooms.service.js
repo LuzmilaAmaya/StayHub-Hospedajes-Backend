@@ -1,21 +1,22 @@
 import Room from "../models/Room.js";
 
-export const createRoom = (data) => {
-  return Room.create(data);
+export const createRoom = async (data) => {
+  const newRoom = new Room(data);
+  return await newRoom.save();
 };
 
-export const getAllRooms = () => {
-  return Room.find();
+export const getAllRooms = async () => {
+  return await Room.find();
 };
 
-export const getRoomById = (id) => {
-  return Room.findById(id);
+export const getRoomById = async (id) => {
+  return await Room.findById(id);
 };
 
-export const updateRoom = (id, data) => {
-  return Room.findByIdAndUpdate(id, data, { new: true });
+export const updateRoom = async (id, data) => {
+  return await Room.findByIdAndUpdate(id, data, { new: true });
 };
 
-export const deleteRoom = (id) => {
-  return Room.findByIdAndDelete(id);
+export const deleteRoom = async (id) => {
+  return await Room.findByIdAndDelete(id);
 };

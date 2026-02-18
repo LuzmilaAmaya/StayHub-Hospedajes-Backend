@@ -5,6 +5,7 @@ const roomSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
     type: {
       type: String,
@@ -14,10 +15,21 @@ const roomSchema = new mongoose.Schema(
     capacity: {
       type: Number,
       required: true,
+      min: 1,
     },
     pricePerNight: {
       type: Number,
       required: true,
+      min: 0,
+    },
+    images: {
+      type: [String], 
+      required: true,
+      validate: [(val) => val.length > 0, "Debe tener al menos una imagen"],
+    },
+    description: {
+      type: String,
+      default: "",
     },
     active: {
       type: Boolean,

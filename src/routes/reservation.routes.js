@@ -2,16 +2,21 @@ import { Router } from "express";
 import {
   createReservation,
   getReservations,
+  getMyReservations,
   getReservationById,
   cancelReservation,
 } from "../controllers/reservation.controller.js";
-import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { authenticate, authorize } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.post("/", authMiddleware, createReservation);
-router.get("/", authMiddleware, getReservations);
-router.get("/:id", authMiddleware, getReservationById);
-router.patch("/:id/cancel", authMiddleware, cancelReservation);
+
+router.post("/", authenticate, createReservation);
+router.get("/my", authenticate, getMyReservations);
+router.patch("/:id/cancel", authenticate, cancelReservation);
+
+
+router.get("/", authenticate, authorize("admin", "reception"), getReservations);
+router.get("/:id", authenticate, authorize("admin", "reception"), getReservationById);
 
 export default router;

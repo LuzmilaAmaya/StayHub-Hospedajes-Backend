@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   createReservation,
   getReservations,
-  getMyReservations,
   getReservationById,
   cancelReservation,
 } from "../controllers/reservation.controller.js";
@@ -12,7 +11,7 @@ const router = Router();
 
 
 router.post("/", authenticate, createReservation);
-router.get("/my", authenticate, getMyReservations);
+router.get("/my", authenticate, getReservations);
 router.patch("/:id/cancel", authenticate, cancelReservation);
 
 

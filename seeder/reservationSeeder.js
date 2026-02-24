@@ -4,15 +4,12 @@ import Reservation from "../src/models/Reservation.js";
 import Room from "../src/models/Room.js";
 import { connectDB } from "../src/config/db.js";
 
-// Cargar variables de entorno
 dotenv.config();
 
 const seedReservations = async () => {
   try {
-    // Conectar a MongoDB usando la función connectDB
     await connectDB();
 
-    // Obtener habitaciones existentes
     const rooms = await Room.find({ active: true });
 
     if (rooms.length === 0) {
@@ -22,12 +19,10 @@ const seedReservations = async () => {
     }
 
     console.log(`📦 ${rooms.length} habitaciones encontradas`);
-
-    // Limpiar colección existente
     await Reservation.deleteMany({});
     console.log("🗑️  Reservas anteriores eliminadas");
 
-    // Crear fechas para las reservas
+
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -38,10 +33,9 @@ const seedReservations = async () => {
     const nextMonth = new Date(today);
     nextMonth.setDate(nextMonth.getDate() + 30);
 
-    // Datos de ejemplo para reservas
     const reservations = [
       {
-        room: rooms[0]._id, // Suite Ejecutiva
+        room: rooms[0]._id, 
         guest: {
           name: "María González",
           email: "maria.gonzalez@email.com",
@@ -62,7 +56,7 @@ const seedReservations = async () => {
         status: "confirmed",
       },
       {
-        room: rooms[1]._id, // Suite Premium
+        room: rooms[1]._id,
         guest: {
           name: "Carlos Rodríguez",
           email: "carlos.rodriguez@email.com",
@@ -185,13 +179,11 @@ const seedReservations = async () => {
       },
     ];
 
-    // Insertar reservas
     const createdReservations = await Reservation.insertMany(reservations);
     console.log(
       `✨ ${createdReservations.length} reservas creadas exitosamente`
     );
 
-    // Mostrar las reservas creadas con populate
     const reservationsWithRoom = await Reservation.find().populate("room");
 
     console.log("\n📋 Reservas creadas:");
@@ -207,7 +199,6 @@ const seedReservations = async () => {
       );
     });
 
-    // Cerrar conexión
     await mongoose.connection.close();
     console.log("\n✅ Seeder completado exitosamente");
     process.exit(0);

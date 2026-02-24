@@ -6,7 +6,6 @@ import { connectDB } from "../src/config/db.js";
 dotenv.config();
 
 const rooms = [
-  //  suite
   {
     name: "Suite Presidencial",
     type: "suite",
@@ -50,7 +49,6 @@ const rooms = [
     active: true,
   },
 
-  //  doble
   {
     name: "Habitación Doble Deluxe",
     type: "doble",
@@ -91,7 +89,6 @@ const rooms = [
     active: true,
   },
 
-  //  simple
   {
     name: "Habitación Simple Premium 108",
     type: "simple",

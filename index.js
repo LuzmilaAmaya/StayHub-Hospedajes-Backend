@@ -6,20 +6,13 @@ import routes from "./src/routes/index.js";
 dotenv.config();
 
 const app = express();
-
-// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Routes
 app.use("/api", routes);
-
-// Health check
 app.get("/", (req, res) => {
   res.send("API Hotel funcionando 🚀");
 });
 
-// DB + Server
 const PORT = process.env.PORT || 3000;
 
 mongoose

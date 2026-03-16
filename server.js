@@ -12,7 +12,7 @@ app.post("/contacto", async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "mnahuelrosas28@gmail.com" ,
+        user: "mnahuelrosas28@gmail.com",
         pass: "sgrq ehqo qejg wkpb",
         // contraseña
       },
@@ -20,7 +20,7 @@ app.post("/contacto", async (req, res) => {
 
     await transporter.sendMail({
       from: email,
-      to: "tucorreo@gmail.com",
+      to: "mnahuelrosas28@gmail.com",
       subject: "Mensaje desde contacto",
       text: `
 Nombre: ${nombre}

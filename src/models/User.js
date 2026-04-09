@@ -18,17 +18,21 @@ const UserSchema = new mongoose.Schema(
 
     password: {
       type: String,
-      required: true,
+      default: null, // 🔥 importante
+    },
+
+    googleId: {
+      type: String, // 🔥 nuevo campo
     },
 
     phone: {
       type: String,
-      required: true,
+      default: null, // 🔥 ya no requerido
     },
 
     documentId: {
       type: String,
-      required: true,
+      default: null, // 🔥 ya no requerido
     },
 
     role: {

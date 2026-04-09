@@ -23,7 +23,7 @@ const roomSchema = new mongoose.Schema(
       min: 0,
     },
     images: {
-      type: [String], 
+      type: [String],
       required: true,
       validate: [(val) => val.length > 0, "Debe tener al menos una imagen"],
     },
@@ -35,8 +35,13 @@ const roomSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    status: {
+      type: String,
+      enum: ["disponible", "reservada", "mantenimiento", "fuera_servicio"],
+      default: "disponible",
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Room", roomSchema);

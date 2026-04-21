@@ -20,7 +20,7 @@ export const authenticate = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Token inválido o expirado" });
+    return res.status(401).json({ message: "Token invalido o expirado" });
   }
 };
 
@@ -28,7 +28,7 @@ export const authenticate = async (req, res, next) => {
 export const authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ message: "No tenés permiso para realizar esta acción" });
+      return res.status(403).json({ message: "No tenes permiso para realizar esta accion" });
     }
     next();
   };

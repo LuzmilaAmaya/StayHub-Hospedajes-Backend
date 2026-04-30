@@ -10,15 +10,32 @@ export const createRoom = async (req, res) => {
 };
 
 export const getRooms = async (req, res) => {
-  const rooms = await RoomService.getAllRooms();
-  res.json(rooms);
+  try {
+    const rooms = await RoomService.getAllRooms();
+    res.json(rooms);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const getRoom = async (req, res) => {
-  const room = await RoomService.getRoomById(req.params.id);
-  res.json(room);
-};
+  try {
+    const { id } = req.params;
 
+    console.log("ID recibido:", id);
+
+    const room = await RoomService.getRoomById(id);
+
+    if (!room) {
+      return res.status(404).json({ message: "Room no encontrada" });
+    }
+
+    res.json(room);
+  } catch (error) {
+    console.log("ERROR getRoom:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
 export const updateRoom = async (req, res) => {
   const room = await RoomService.updateRoom(req.params.id, req.body);
   res.json(room);

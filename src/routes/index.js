@@ -13,7 +13,7 @@ router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 router.use("/reservations", reservationRoutes);
 router.use("/rooms", roomRoutes);
-router.use("/contact", contactRoutes);
+router.use("/contacts", contactRoutes);
 router.use("/payments", paymentRoutes);
 
 export default router;

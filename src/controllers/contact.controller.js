@@ -1,14 +1,29 @@
 import * as contactService from "../services/contact.service.js";
+import { sendContactEmail } from "../services/email.service.js";
 
 export const create = async (req, res) => {
   try {
+    console.log("BODY:", req.body);
+
     const contact = await contactService.createContact(req.body);
+
+    console.log("Guardado en Mongo ✅");
+
+    await sendContactEmail(req.body);
+
+    console.log("Email enviado ✅");
+
     res.status(201).json(contact);
+
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("ERROR REAL:");
+    console.error(error);
+
+    res.status(400).json({
+      error: error.message,
+    });
   }
 };
-
 export const getAll = async (req, res) => {
   try {
     const contacts = await contactService.getAllContacts();

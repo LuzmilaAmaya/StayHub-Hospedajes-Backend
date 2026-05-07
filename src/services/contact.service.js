@@ -1,49 +1,24 @@
-import * as contactService from "./contact.service.js";
+import Contact from "../models/contact.js";
 
-export const create = async (req, res) => {
-  try {
-    const contact = await contactService.createContact(req.body);
-    res.status(201).json(contact);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+export const createContact = async (data) => {
+  const contact = new Contact(data);
+  return await contact.save();
 };
 
-export const getAll = async (req, res) => {
-  try {
-    const contacts = await contactService.getAllContacts();
-    res.status(200).json(contacts);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+export const getAllContacts = async () => {
+  return await Contact.find().sort({ createdAt: -1 });
 };
 
-export const getById = async (req, res) => {
-  try {
-    const contact = await contactService.getContactById(req.params.id);
-    if (!contact) {
-      return res.status(404).json({ message: "Contacto no encontrado" });
-    }
-    res.status(200).json(contact);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+export const getContactById = async (id) => {
+  return await Contact.findById(id);
 };
 
-export const update = async (req, res) => {
-  try {
-    const contact = await contactService.updateContact(req.params.id, req.body);
-    res.status(200).json(contact);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+export const updateContact = async (id, data) => {
+  return await Contact.findByIdAndUpdate(id, data, {
+    new: true,
+  });
 };
 
-export const remove = async (req, res) => {
-  try {
-    await contactService.deleteContact(req.params.id);
-    res.status(200).json({ message: "Contacto eliminado" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+export const deleteContact = async (id) => {
+  return await Contact.findByIdAndDelete(id);
 };

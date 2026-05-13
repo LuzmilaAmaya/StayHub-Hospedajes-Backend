@@ -1,12 +1,20 @@
 import mongoose from "mongoose";
 
+const MONGO_URI = process.env.MONGO_URI;
+
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
 export const connectDB = async () => {
-  try {
-    console.log("MONGO URI:", process.env.MONGO_URI);
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB conectado");
-  } catch (error) {
-    console.error("Error DB:", error);
-    process.exit(1);
+  if (cached.conn) return cached.conn;
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGO_URI);
   }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
 };

@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-
 export const authenticate = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -10,6 +9,10 @@ export const authenticate = async (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
+
+    console.log("TOKEN:", token);
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findById(decoded.id).select("-password");
@@ -20,15 +23,18 @@ export const authenticate = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
+    console.log("AUTH HEADER:", req.headers.authorization);
+    console.log("JWT ERROR:", error.message);
     return res.status(401).json({ message: "Token invalido o expirado" });
   }
 };
 
-
 export const authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ message: "No tenes permiso para realizar esta accion" });
+      return res
+        .status(403)
+        .json({ message: "No tenes permiso para realizar esta accion" });
     }
     next();
   };

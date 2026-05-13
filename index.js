@@ -7,10 +7,8 @@ import routes from "./src/routes/index.js";
 import cors from "cors";
 
 
-const app = express();
 app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true,
+  origin: "*",
 }));
 
 app.use(express.json());
@@ -21,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 4000;
-
+console.log("MONGO_URI:", process.env.MONGO_URI);
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {

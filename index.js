@@ -17,17 +17,15 @@ app.use("/api", routes);
 app.get("/", (req, res) => {
   res.send("API Hotel funcionando 🚀");
 });
-
-const PORT = process.env.PORT || 4000;
 console.log("MONGO_URI:", process.env.MONGO_URI);
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("MongoDB conectado ✅");
-    app.listen(PORT, () =>
-      console.log(`Servidor corriendo en puerto ${PORT} 🔥`),
-    );
   })
   .catch((error) => {
     console.error("Error MongoDB ❌", error);
   });
+
+export default app;

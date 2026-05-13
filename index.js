@@ -6,9 +6,9 @@ import mongoose from "mongoose";
 import routes from "./src/routes/index.js";
 import cors from "cors";
 
-
 app.use(cors({
-  origin: "*",
+  origin: true,
+  credentials: true,
 }));
 
 app.use(express.json());

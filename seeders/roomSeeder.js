@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Room from "../src/models/Room.js";
 import { connectDB } from "../src/config/db.js";
@@ -129,43 +128,42 @@ const rooms = [
   },
 ];
 
-const seedRooms = async () => {
+export const seedRooms = async () => {
   try {
     await connectDB();
 
-    await Room.deleteMany({});
-    console.log("🗑️  Habitaciones anteriores eliminadas");
+    console.log("🌱 Running PRO seed (idempotent upsert)...");
 
-    const created = await Room.insertMany(rooms);
+    let created = 0;
+    let updated = 0;
 
-    console.log(`\n✨ ${created.length} habitaciones creadas:\n`);
-    created.forEach((r) => {
-      const status = r.active ? "✅" : "🔴";
-      console.log(
-        `  ${status} [${r.type.toUpperCase()}] ${r.name} — $${r.pricePerNight}/noche — ${r.images.length} imágen(es)`
+    for (const room of rooms) {
+      const result = await Room.findOneAndUpdate(
+        { key: room.key }, // 👈 identidad estable
+        { $set: room },
+        {
+          upsert: true, // crea si no existe
+          new: true,
+        }
       );
-    });
 
-    const resumen = {
-      suite:  created.filter((r) => r.type === "suite").length,
-      doble:  created.filter((r) => r.type === "doble").length,
-      simple: created.filter((r) => r.type === "simple").length,
-      activas: created.filter((r) => r.active).length,
-    };
+      if (result.createdAt && result.updatedAt && result.createdAt.getTime() === result.updatedAt.getTime()) {
+        created++;
+      } else {
+        updated++;
+      }
+    }
 
     console.log(`
-   Resumen:
-   Suites:  ${resumen.suite}
-   Dobles:  ${resumen.doble}
-   Simples: ${resumen.simple}
-   Activas: ${resumen.activas} / ${created.length}
+✅ SEED PRO COMPLETADO
+- creadas: ${created}
+- actualizadas: ${updated}
+- total definidas: ${rooms.length}
     `);
 
-    await mongoose.connection.close();
-    console.log("✅ Seeder completado");
     process.exit(0);
   } catch (error) {
-    console.error("❌ Error en el seeder:", error);
+    console.error("❌ Seed error:", error);
     process.exit(1);
   }
 };

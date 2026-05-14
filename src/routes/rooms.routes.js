@@ -1,12 +1,22 @@
 import { Router } from "express";
-import * as RoomController from "../controllers/room.controller.js";
+import {
+  getRooms,
+  createRoom,
+  updateRoom,
+  deleteRoom,
+  getRoomById,
+} from "../controllers/rooms.controller.js";
+
+import { authenticate, authorize } from "../middleware/auth.js";
 
 const router = Router();
 
-router.get("/", RoomController.getRooms);
-router.get("/:id", RoomController.getRoom);
-router.post("/", RoomController.createRoom);
-router.put("/:id", RoomController.updateRoom);
-router.delete("/:id", RoomController.deleteRoom);
+router.get("/", getRooms);
+router.get("/:id", getRoomById);
+
+// solo admin
+router.post("/", authenticate, authorize("admin"), createRoom);
+router.put("/:id", authenticate, authorize("admin"), updateRoom);
+router.delete("/:id", authenticate, authorize("admin"), deleteRoom);
 
 export default router;

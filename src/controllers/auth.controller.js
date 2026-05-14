@@ -22,7 +22,7 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    let role = "user";
+    let role = "guest";
 
     if (email === process.env.ADMIN_EMAIL) {
       role = "admin";
@@ -48,6 +48,8 @@ export const register = async (req, res) => {
       user,
     });
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       message: error.message,
     });
@@ -94,6 +96,8 @@ export const login = async (req, res) => {
       user,
     });
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       message: error.message,
     });
@@ -107,22 +111,19 @@ export const googleAuth = async (req, res) => {
     let user = await User.findOne({ email });
 
     if (!user) {
+      let role = "guest";
+
+      if (email === process.env.ADMIN_EMAIL) {
+        role = "admin";
+      }
+
       user = await User.create({
         fullName,
         email,
         googleId,
         photo,
-        role: "user",
+        role,
       });
-    }
-
-    const isAdmin = user.email === process.env.ADMIN_EMAIL;
-
-    if (isAdmin && user.role !== "admin") {
-      user.role = "admin";
-      await user.save();
-
-      user = await User.findById(user._id);
     }
 
     const token = jwt.sign(
@@ -136,6 +137,10 @@ export const googleAuth = async (req, res) => {
       user,
     });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.log(error);
+
+    return res.status(500).json({
+      message: error.message,
+    });
   }
 };

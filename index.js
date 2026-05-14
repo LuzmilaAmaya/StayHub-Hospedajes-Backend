@@ -21,12 +21,15 @@ app.get("/", (req, res) => {
 console.log("MONGO_URI:", process.env.MONGO_URI);
 
 mongoose
-  .connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI, {
+    dbName: "stayhub",
+    serverSelectionTimeoutMS: 30000,
+  })
   .then(() => {
     console.log("MongoDB conectado ✅");
   })
   .catch((error) => {
     console.error("Error MongoDB ❌", error);
   });
-
 export default app;

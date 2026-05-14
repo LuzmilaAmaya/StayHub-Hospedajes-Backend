@@ -4,7 +4,7 @@ import {
   createRoom,
   updateRoom,
   deleteRoom,
-  getRoomById,
+  getRoom,
 } from "../controllers/room.controller.js";
 
 import { authenticate, authorize } from "../middleware/auth.js";
@@ -12,7 +12,7 @@ import { authenticate, authorize } from "../middleware/auth.js";
 const router = Router();
 
 router.get("/", getRooms);
-router.get("/:id", getRoomById);
+router.get("/:id", getRoom);
 
 
 router.post("/", authenticate, authorize("admin"), createRoom);

@@ -7,7 +7,7 @@ import {
   getRoom,
 } from "../controllers/room.controller.js";
 
-import { authenticate, authorize } from "../middleware/auth.js";
+import { authenticate, authorize } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 

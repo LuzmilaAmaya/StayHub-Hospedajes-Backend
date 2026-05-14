@@ -21,10 +21,15 @@ app.use(async (req, res, next) => {
 
 app.use(
   cors({
-    origin: true,
+    origin: [
+      "https://stay-hub-hospedajes-fronted-fwp5.vercel.app",
+    ],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+app.options("*", cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

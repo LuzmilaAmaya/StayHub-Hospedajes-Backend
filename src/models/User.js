@@ -18,27 +18,33 @@ const UserSchema = new mongoose.Schema(
 
     password: {
       type: String,
-      default: null, // 🔥 importante
+      default: null,
     },
 
     googleId: {
-      type: String, // 🔥 nuevo campo
+      type: String,
+      default: null,
+    },
+
+    photo: {
+      type: String,
+      default: null,
     },
 
     phone: {
       type: String,
-      default: null, // 🔥 ya no requerido
+      default: null,
     },
 
     documentId: {
       type: String,
-      default: null, // 🔥 ya no requerido
+      default: null,
     },
 
     role: {
       type: String,
-      enum: ["guest", "admin", "reception"],
-      default: "guest",
+      enum: ["user", "admin", "reception"],
+      default: "user",
     },
 
     isActive: {
@@ -48,7 +54,7 @@ const UserSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 export default mongoose.model("User", UserSchema);

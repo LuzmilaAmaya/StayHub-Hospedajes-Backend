@@ -37,6 +37,19 @@ export const getReservationById = async (req, res) => {
   }
 };
 
+export const getAllReservations = async (req, res) => {
+  try {
+    const reservations =
+      await reservationService.getAllReservations();
+
+    res.json(reservations);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
 export const cancelReservation = async (req, res) => {
   try {
     const reservation = await reservationService.cancelReservation(
@@ -46,5 +59,20 @@ export const cancelReservation = async (req, res) => {
     res.json(reservation);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+export const updateReservation = async (req, res) => {
+  try {
+    const reservation =
+      await reservationService.updateReservation(
+        req.params.id,
+        req.body
+      );
+
+    res.json(reservation);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
   }
 };

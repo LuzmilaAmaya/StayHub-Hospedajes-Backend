@@ -34,7 +34,7 @@ export const register = async (req, res) => {
       password: hashedPassword,
       phone,
       documentId,
-      role,
+      role: "guest",
     });
 
     const token = jwt.sign(

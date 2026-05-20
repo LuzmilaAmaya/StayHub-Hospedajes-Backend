@@ -31,9 +31,17 @@ export const getUserById = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
+    const updatedData = {
+      ...req.body,
+    };
+
+    if (req.file) {
+     updatedData.photo = `http://localhost:4000/uploads/${req.file.filename}`;
+    }
+
     const user = await updateUserService(
       req.params.id,
-      req.body
+      updatedData
     );
 
     res.json(user);

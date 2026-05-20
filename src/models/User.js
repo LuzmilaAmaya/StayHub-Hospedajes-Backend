@@ -18,21 +18,27 @@ const UserSchema = new mongoose.Schema(
 
     password: {
       type: String,
-      default: null, // 🔥 importante
+      default: null,
     },
 
     googleId: {
-      type: String, // 🔥 nuevo campo
+      type: String,
+      default: null,
+    },
+
+    photo: {
+      type: String,
+      default: null,
     },
 
     phone: {
       type: String,
-      default: null, // 🔥 ya no requerido
+      default: null,
     },
 
     documentId: {
       type: String,
-      default: null, // 🔥 ya no requerido
+      default: null,
     },
 
     role: {
@@ -45,10 +51,19 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isBanned: {
+  type: Boolean,
+  default: false,
+},
+
+banReason: {
+  type: String,
+  default: "",
+},
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 export default mongoose.model("User", UserSchema);

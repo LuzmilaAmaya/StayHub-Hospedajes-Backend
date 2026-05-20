@@ -6,10 +6,9 @@ import mongoose from "mongoose";
 import routes from "./src/routes/index.js";
 import cors from "cors";
 
-
 const app = express();
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: true,
   credentials: true,
 }));
 
@@ -19,17 +18,25 @@ app.use("/api", routes);
 app.get("/", (req, res) => {
   res.send("API Hotel funcionando 🚀");
 });
-
-const PORT = process.env.PORT || 4000;
+console.log("MONGO_URI:", process.env.MONGO_URI);
 
 mongoose
-  .connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI, {
+    dbName: "stayhub",
+    serverSelectionTimeoutMS: 30000,
+  })
   .then(() => {
     console.log("MongoDB conectado ✅");
-    app.listen(PORT, () =>
-      console.log(`Servidor corriendo en puerto ${PORT} 🔥`),
-    );
   })
   .catch((error) => {
     console.error("Error MongoDB ❌", error);
   });
+
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`);
+});
+
+export default app;

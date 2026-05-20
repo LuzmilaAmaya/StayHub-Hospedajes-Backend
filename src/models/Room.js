@@ -27,6 +27,11 @@ const roomSchema = new mongoose.Schema(
       required: true,
       validate: [(val) => val.length > 0, "Debe tener al menos una imagen"],
     },
+    key: {
+      type: String,
+      unique: true,
+      required: true,
+    },
     description: {
       type: String,
       default: "",

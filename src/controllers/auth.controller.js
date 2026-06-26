@@ -34,7 +34,7 @@ export const register = async (req, res) => {
       password: hashedPassword,
       phone,
       documentId,
-      role: "guest",
+      role, // <-- corregido
     });
 
     const token = jwt.sign(
@@ -48,10 +48,10 @@ export const register = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     res.status(500).json({
-      message: error.message,
+      message: "Ocurrió un error al registrar el usuario.",
     });
   }
 };
@@ -96,10 +96,10 @@ export const login = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     res.status(500).json({
-      message: error.message,
+      message: "Ocurrió un error al iniciar sesión.",
     });
   }
 };
@@ -137,10 +137,10 @@ export const googleAuth = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return res.status(500).json({
-      message: error.message,
+      message: "Ocurrió un error al iniciar sesión con Google.",
     });
   }
 };

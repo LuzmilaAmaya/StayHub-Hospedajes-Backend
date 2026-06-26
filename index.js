@@ -7,6 +7,7 @@ import routes from "./src/routes/index.js";
 import cors from "cors";
 
 const app = express();
+
 app.use(cors({
   origin: true,
   credentials: true,
@@ -14,13 +15,17 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/uploads", express.static("uploads"));
+
 app.use("/api", routes);
+
 app.get("/", (req, res) => {
   res.send("API Hotel funcionando 🚀");
 });
+
 console.log("MONGO_URI:", process.env.MONGO_URI);
 
-mongoose
 mongoose
   .connect(process.env.MONGO_URI, {
     dbName: "stayhub",
